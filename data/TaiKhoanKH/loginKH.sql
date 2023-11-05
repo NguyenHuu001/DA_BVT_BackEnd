@@ -1,3 +1,3 @@
-SELECT [MaTKKH]
+SELECT [MaTKKH], [MatKhau]
 FROM [dbo].[TaiKhoanKH]
-WHERE [TenDangNhap] = @TenDangNhap AND [MatKhau] = @MatKhau;
+WHERE [TenDangNhap] = @TenDangNhap ;
