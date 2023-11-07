@@ -1,6 +1,7 @@
 'use strict';
 const TaiKhoanKHData = require('../data/TaiKhoanKH');
-
+// /dish/:MaMonAn ->  const { MaMonAn } = req.params
+//"http://example.com/?name=John&age=30 -> const name = req.query.name;
 const addAccountKH = async (req, res, next) => {
     try {
         const data = req.body;
@@ -13,7 +14,6 @@ const addAccountKH = async (req, res, next) => {
 const loginAccountKH = async (req, res, next) => {
     try {
         const data = req.body;
-        console.log(data);
         const login = await TaiKhoanKHData.loginKH(data);
         login ? res.status(200).send(login) : res.status(400).send('Lỗi đăng nhập');
     } catch (error) {
