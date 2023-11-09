@@ -24,10 +24,10 @@ const searchChuyenTau = async (MaChuyenTau, SoLuong, NgayDi) => {
             .input('SoLuong', sql.Int, SoLuong)
             .input('NgayDi', sql.Date, NgayDi)
             .query(sqlQueries.searchChuyenTau);
-            
+
         return result.recordset;
     } catch (error) {
         throw error;
     }
 };
-module.exports = { getAllChuyenTau,searchChuyenTau };
+module.exports = { getAllChuyenTau, searchChuyenTau };

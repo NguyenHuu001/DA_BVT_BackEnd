@@ -5,7 +5,6 @@ const config = require('../../config');
 const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
 const createAccountKH = async (TKKHData) => {
     try {
         let pool = await sql.connect(config.sql);
@@ -70,8 +69,6 @@ const loginKH = async (TKKHData) => {
         DataKH = detailUser.recordset;
         //Tạo token
         let token = jwt.sign({ token: MaTKKH }, 'mk');
-        //Giải mã token
-        const idUser = jwt.verify(token, 'mk');
         const hashedPassword = MatKhau;
         //So sánh password từ người dùng nhập vào và password trong cơ sở dữ liệu
         const passwordMatch = await bcrypt.compare(TKKHData.MatKhau, hashedPassword);

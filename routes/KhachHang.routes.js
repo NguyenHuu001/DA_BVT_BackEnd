@@ -3,9 +3,9 @@ const express = require('express');
 const KhachHangController = require('../controllers/KhachHang.controller.js');
 const router = express.Router();
 
-const { } = KhachHangController;
+const { getDetailKH } = KhachHangController;
 
-// router.post('/createAccountKH', addAccountKH);
+router.get('/getDetailKH', getDetailKH);
 module.exports = {
-    routes:router
-}
+    routes: router,
+};
