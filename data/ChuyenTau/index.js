@@ -30,4 +30,17 @@ const searchChuyenTau = async (MaChuyenTau, SoLuong, NgayDi) => {
         throw error;
     }
 };
-module.exports = { getAllChuyenTau, searchChuyenTau };
+const searchPriceTicket = async (MaChuyenTau, MaGhe) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
+        const result = await pool
+            .request()
+            .input('MaChuyenTau', sql.Int, MaChuyenTau)
+            .query(sqlQueries.priceTicket);
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    }
+};
+module.exports = { getAllChuyenTau, searchChuyenTau, searchPriceTicket };

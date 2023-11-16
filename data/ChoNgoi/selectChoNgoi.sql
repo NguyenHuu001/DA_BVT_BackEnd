@@ -2,7 +2,7 @@ SELECT ctcn.MaCTCN, ctcn.MaGhe, cn.SoGhe AS TenGhe, ctcn.TrangThai, ctcn.MaKhach
 FROM ChiTietChoNgoi ctcn
 JOIN ChoNgoi cn ON ctcn.MaGhe = cn.MaGhe
 WHERE ctcn.MaCTCT = @MaCTCT
-ORDER BY cn.SoGhe ASC;
+ORDER BY cn.MaGhe ASC;
         
 
 

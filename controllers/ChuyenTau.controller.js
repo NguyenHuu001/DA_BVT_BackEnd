@@ -21,7 +21,18 @@ const searchChuyenTau = async (req, res, next) => {
         res.status(400).send(error.message);
     }
 };
+const searchPriceTicket = async (req, res, next) => {
+    try {
+        const MaChuyenTau = req.query.MaChuyenTau;
+
+        const PriceTicket = await ChuyenTauData.searchPriceTicket(MaChuyenTau);
+        res.send(PriceTicket);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
 module.exports = {
     getAllChuyenTau,
     searchChuyenTau,
+    searchPriceTicket,
 };
