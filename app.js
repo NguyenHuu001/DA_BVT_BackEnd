@@ -10,6 +10,7 @@ const TaiKhoanKHRoutes = require('./routes/TaiKhoanKH.routes');
 const ChuyenTauRoutes = require('./routes/ChuyenTau.routes');
 const KhachHangRoutes = require('./routes/KhachHang.routes');
 const ChoNgoiRoutes = require('./routes/ChoNgoi.routes');
+const TTKhachDiChung = require('./routes/TTKhachDiChung.routes');
 //cấu hình để sử dụng cookies
 app.use(
     cors({
@@ -26,6 +27,7 @@ app.use('/api', TaiKhoanKHRoutes.routes);
 app.use('/api', ChuyenTauRoutes.routes);
 app.use('/api', KhachHangRoutes.routes);
 app.use('/api', ChoNgoiRoutes.routes);
+app.use('/api', TTKhachDiChung.routes);
 //
 app.listen(config.port, () => {
     console.log(`App running on port ${config.port} `);

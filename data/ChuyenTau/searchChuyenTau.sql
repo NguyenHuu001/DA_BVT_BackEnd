@@ -2,6 +2,7 @@
 SELECT
     [CT].[NgayDi],
     [CT].[GioDi],
+    [CT].[MaCTCT],
     [CT].[TinhTrang],
     [C].[MaChuyenTau],
     [C].[TenChuyen],
@@ -13,5 +14,5 @@ LEFT JOIN [ChiTietChoNgoi] [CN]
     ON [CT].[MaCTCT] = [CN].[MaCTCT]
 WHERE [C].[MaChuyenTau] = @MaChuyenTau
     AND [CT].[NgayDi] = @NgayDi
-GROUP BY [CT].[NgayDi], [CT].[GioDi], [CT].[TinhTrang], [C].[MaChuyenTau], [C].[TenChuyen]
+GROUP BY [CT].[NgayDi], [CT].[GioDi], [CT].[TinhTrang], [CT].[MaCTCT], [C].[MaChuyenTau], [C].[TenChuyen]
 HAVING   COUNT(CASE WHEN [CN].[MaKhachDiChung] IS NULL THEN 1 ELSE NULL END) >=  @SoLuong;
