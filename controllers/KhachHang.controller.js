@@ -14,4 +14,17 @@ const getDetailKH = async (req, res, next) => {
         res.status(400).send(error.message);
     }
 };
-module.exports = { getDetailKH };
+const updateKhachHang = async (req, res, next) => {
+    try {
+        const token = req.cookies.token;
+        const idUser = jwt.verify(token, 'mk');
+        const MaTKKH = idUser.token;
+
+        const dataKH = req.body;
+        const KhachHang = await KhachHangData.updateKhachHang(dataKH, MaTKKH);
+        res.status(200).send(KhachHang);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
+module.exports = { getDetailKH, updateKhachHang };

@@ -5,6 +5,8 @@ const config = require('../../config');
 const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+
 const createAccountKH = async (TKKHData) => {
     try {
         let pool = await sql.connect(config.sql);
@@ -82,4 +84,83 @@ const loginKH = async (TKKHData) => {
     }
 };
 
-module.exports = { createAccountKH, loginKH };
+const forgotPassWord = async (Email) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('TaiKhoanKH');
+        const checkEmail = await pool.request().input('Email', sql.VarChar(100), Email).query(sqlQueries.checkEmail);
+
+        if (checkEmail.recordset.length === 0) {
+            return { message: 'Email không tồn tại trong hệ thống.' };
+        }
+
+        const MaTKKH = checkEmail.recordset[0].MaTKKH;
+        const secret = checkEmail.recordset[0].Email;
+
+        const token = jwt.sign({ MaTKKH: MaTKKH, Email: secret }, secret, { expiresIn: '5m' });
+        const link = `http://localhost:8008/api/reset-password/${MaTKKH}/${token}`;
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'nguyenduchuu1k1@gmail.com',
+                pass: 'evqk vkbd ijlh hegu',
+            },
+        });
+        console.log(Email);
+        var mailOptions = {
+            from: 'nguyenduchuu1k1@gmail.com',
+            to: Email,
+            subject: 'Thay đổi mật khẩu của "Bán vé tàu hỏa siêu cấp vippro"',
+            text: link,
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+        return { message: 'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn.', link };
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+};
+
+const resetPassWord = async (id, token) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('TaiKhoanKH');
+        const checkAccount = await pool.request().input('MaTKKT', sql.Int, id).query(sqlQueries.checkAccount);
+        if (!checkAccount) return null;
+        const secret = checkAccount.recordset[0].Email;
+        const verify = jwt.verify(token, secret);
+        return verify;
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+};
+const postResetPassWord = async (id, token, password) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('TaiKhoanKH');
+        const checkAccount = await pool.request().input('MaTKKT', sql.Int, id).query(sqlQueries.checkAccount);
+        if (!checkAccount) return null;
+        const secret = checkAccount.recordset[0].Email;
+        const verify = jwt.verify(token, secret);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const insertTKKH = await pool
+            .request()
+            .input('MatKhau', sql.VarChar(100), hashedPassword)
+            .input('Email', sql.VarChar(100), verify.Email)
+            .input('MaTKKH', sql.Int, verify.MaTKKH)
+            .query(sqlQueries.updatePassWord);
+        return 'Cập nhật thành công';
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+};
+module.exports = { createAccountKH, loginKH, forgotPassWord, resetPassWord, postResetPassWord };

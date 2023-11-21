@@ -9,7 +9,7 @@ const createBookTicket = async (dataArray, MaTKKH, dataLSDV) => {
         let pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('TTKhachDiChung');
         const sqlQueries1 = await utils.loadSqlQueries('ChoNgoi');
-
+        if (!MaTKKH) return null;
         for (let i = 0; i < dataArray.length; i++) {
             const data = dataArray[i];
             const result = await pool
@@ -21,7 +21,7 @@ const createBookTicket = async (dataArray, MaTKKH, dataLSDV) => {
                 .input('DienThoai', sql.NVarChar(15), data.SDTHK || null)
                 .input('QuocTich', sql.NVarChar(50), data.QuocTichHK || null)
                 .input('Email', sql.NVarChar(100), data.EmailHK || null)
-                .input('MaTKKH', sql.Int, MaTKKH || null)
+                .input('MaTKKH', sql.Int, MaTKKH)
                 .query(sqlQueries.createKhachDiChung);
 
             await pool
@@ -33,7 +33,7 @@ const createBookTicket = async (dataArray, MaTKKH, dataLSDV) => {
         }
         const result = await pool
             .request()
-            .input('MaTKKH', sql.Int, MaTKKH || null)
+            .input('MaTKKH', sql.Int, MaTKKH)
             .input('MaCTCT', sql.Int, dataLSDV.MaCTCT || null)
             .input('NgayDatVe', sql.Date, dataLSDV.NgayDatVe || null)
             .input('SoLuongVe', sql.Int, dataLSDV.SoLuongVe || null)
