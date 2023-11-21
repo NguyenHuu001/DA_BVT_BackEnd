@@ -36,7 +36,7 @@ const resetPassWord = async (req, res, next) => {
         const { id, token } = req.params;
         const reset = await TaiKhoanKHData.resetPassWord(id, token);
         reset
-            ? res.render('../views/resetPassWord', { Email: reset.Email, status: 'lỗi' })
+            ? res.render('../views/resetPassWord', { Email: reset.Email, status: 'thành công' })
             : res.status(400).send('Lỗi reset pass');
     } catch (error) {
         res.status(401).send(error.message);
@@ -45,11 +45,15 @@ const resetPassWord = async (req, res, next) => {
 const postResetPassWord = async (req, res, next) => {
     try {
         const { id, token } = req.params;
-        const { password } = req.body;
-        const reset = await TaiKhoanKHData.postResetPassWord(id, token, password);
-        reset
-            ? res.render('../views/resetPassWord', { Email: reset.Email, status: 'verified' })
-            : res.status(400).send('Lỗi reset pass');
+        const { password, confirmPassword } = req.body;
+        if (password === confirmPassword) {
+            const reset = await TaiKhoanKHData.postResetPassWord(id, token, password);
+            reset
+                ? res.render('../views/resetPassWord', { Email: reset.Email, status: 'verified' })
+                : res.status(400).send('Lỗi reset pass');
+        } else {
+            res.render('../views/resetPassWord', { status: 'nott' });
+        }
     } catch (error) {
         res.status(401).send(error.message);
     }

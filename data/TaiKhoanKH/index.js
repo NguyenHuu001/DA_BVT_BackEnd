@@ -91,7 +91,7 @@ const forgotPassWord = async (Email) => {
         const checkEmail = await pool.request().input('Email', sql.VarChar(100), Email).query(sqlQueries.checkEmail);
 
         if (checkEmail.recordset.length === 0) {
-            return { message: 'Email không tồn tại trong hệ thống.' };
+            return null;
         }
 
         const MaTKKH = checkEmail.recordset[0].MaTKKH;
@@ -111,7 +111,7 @@ const forgotPassWord = async (Email) => {
             from: 'nguyenduchuu1k1@gmail.com',
             to: Email,
             subject: 'Thay đổi mật khẩu của "Bán vé tàu hỏa siêu cấp vippro"',
-            text: link,
+            text: `Vui lòng nhấn vào link để chuyển hướng đến trang cập nhật Mật Khẩu \n ${link}`,
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -121,7 +121,7 @@ const forgotPassWord = async (Email) => {
                 console.log('Email sent: ' + info.response);
             }
         });
-        return { message: 'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn.', link };
+        return { message: 'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn.' };
     } catch (error) {
         console.error(error.message);
         throw error;
