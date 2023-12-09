@@ -1,14 +1,15 @@
 'use strict';
-const TaiKhoanKHData = require('../data/TaiKhoanNV');
+const TaiKhoanNVData = require('../data/TaiKhoanNV');
 
-const getAllTaiKhoanNV = async (req, res, next) => {
+const loginAccountNV = async (req, res, next) => {
     try {
-        const TaiKhoan = await TaiKhoanKHData.getTaiKhoanNV();
-        res.send(TaiKhoan);
+        const data = req.body;
+        const login = await TaiKhoanNVData.loginAccountNV(data);
+        login ? res.status(200).send(login) : res.status(400).send('Đăng nhập thất bại');
     } catch (error) {
-        res.status(400).send(error.message)
+        res.status(401).send(error.message);
     }
-}
+};
 module.exports = {
-    getAllTaiKhoanNV
-}
+    loginAccountNV,
+};
