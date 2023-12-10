@@ -14,14 +14,14 @@ const loginAccountNV = async (TKNVData) => {
         //Lấy câu truy vấn
         const sqlQueries = await utils.loadSqlQueries('TaiKhoanNV');
         //Thực hiện câu truy vấn
-        const user = await pool
+        const Admin = await pool
             .request()
             .input('TenDangNhap', sql.NVarChar(100), TKNVData.TenDangNhap)
             .query(sqlQueries.loginNV);
-        if (user.recordset.length === 0) {
+        if (Admin.recordset.length === 0) {
             return null;
         }
-        user.recordset.map((value) => {
+        Admin.recordset.map((value) => {
             MatKhau = value.MatKhau;
             MaTKNV = value.MaTKNV;
         });
@@ -30,8 +30,9 @@ const loginAccountNV = async (TKNVData) => {
         const hashedPassword = MatKhau;
         //So sánh password từ người dùng nhập vào và password trong cơ sở dữ liệu
         const passwordMatch = await bcrypt.compare(TKNVData.MatKhau, hashedPassword);
+        const Quyen = Admin.recordset[0].Quyen;
         if (passwordMatch) {
-            return { token, TenDangNhap };
+            return { token, TenDangNhap, Quyen };
         } else {
             return null;
         }

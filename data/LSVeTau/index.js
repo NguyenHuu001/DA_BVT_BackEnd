@@ -14,4 +14,24 @@ const getLSDatVe = async (MaTKKH) => {
         return error.message;
     }
 };
-module.exports = { getLSDatVe };
+const cancelTickets = async (MaDatVe) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('LSVeTau');
+        const list = await pool.request().input('MaDatVe', sql.Int, MaDatVe).query(sqlQueries.cancelTickets);
+        return true;
+    } catch (error) {
+        return error.message;
+    }
+};
+const searchCancelTickets = async (MaDatVe) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('LSVeTau');
+        const list = await pool.request().input('MaDatVe', sql.Int, MaDatVe).query(sqlQueries.searchCancelTickets);
+        return list.recordset;
+    } catch (error) {
+        return error.message;
+    }
+};
+module.exports = { getLSDatVe, cancelTickets, searchCancelTickets };

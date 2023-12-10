@@ -1,3 +1,4 @@
-INSERT INTO LSDatVe (MaTKKH, MaCTCT, NgayDatVe, MaKhachDiChung, TongTien)
+INSERT INTO LSDatVe (MaTKKH, MaCTCT, NgayDatVe, MaKhachDiChung, TrangThai, GiaVe)
 VALUES 
-   (@MaTKKH, @MaCTCT, @NgayDatVe, @MaKhachDiChung, @TongTien);
+   (@MaTKKH, @MaCTCT, @NgayDatVe, @MaKhachDiChung, N'Đã đặt', @GiaVe);
+

@@ -43,7 +43,7 @@ const createBookTicket = async (dataArray, MaTKKH, dataLSDV) => {
                 .input('MaCTCT', sql.Int, dataLSDV.MaCTCT || null)
                 .input('NgayDatVe', sql.Date, dataLSDV.NgayDatVe || null)
                 .input('MaKhachDiChung', sql.Int, maKhachDiChung || null)
-                .input('TongTien', sql.Decimal(10, 2), i === 0 ? dataLSDV.TongTien : null)
+                .input('GiaVe', sql.Decimal(10, 2), dataLSDV.GiaVe)
                 .query(sqlQueries.createLSDatVe);
         }
     } catch (error) {
