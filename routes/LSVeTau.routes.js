@@ -9,7 +9,7 @@ const { verifyAdmin, verifyUser } = authenticate;
 
 router.get('/getLSDatVe', getLSDatVe);
 router.get('/searchCancelTickets/:MaDatVe', verifyAdmin, searchCancelTickets);
-router.post('/cancelTickets/:MaDatVe', cancelTickets);
+router.post('/cancelTickets/', cancelTickets);
 module.exports = {
     routes: router,
 };

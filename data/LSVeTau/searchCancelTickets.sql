@@ -8,6 +8,9 @@ SELECT
     LSDV.MaKhachDiChung,
     LSDV.TrangThai,
     LSDV.GiaVe,
+    HV.TenTaiKhoan,
+    HV.SoTaiKhoan,
+    HV.TenNganHang,
     TTKDC.HoTen AS HoTenKhachDiChung,
     CN.SoGhe AS TenGhe,
     CTCN.MaGhe

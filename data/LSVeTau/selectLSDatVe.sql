@@ -21,7 +21,7 @@ LEFT JOIN ChoNgoi ON ChiTietChoNgoi.MaGhe = ChoNgoi.MaGhe
 WHERE
     LSDatVe.MaTKKH = @MaTKKH
 ORDER BY
-    LSDatVe.NgayDatVe DESC; 
+    LSDatVe.MaDatVe DESC; 
 
 -- GROUP BY
 --     ChuyenTau.TenChuyen,

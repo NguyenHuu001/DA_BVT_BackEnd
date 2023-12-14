@@ -15,8 +15,8 @@ const getLSDatVe = async (req, res, next) => {
 };
 const cancelTickets = async (req, res, next) => {
     try {
-        const { MaDatVe } = req.params;
-        const response = await LSVeTauData.cancelTickets(MaDatVe);
+        const data = req.body;
+        const response = await LSVeTauData.cancelTickets(data);
         response ? res.status(200).send(response) : res.status(400).send('Hủy vé thất bại');
     } catch (error) {
         res.status(401).send(error.message);
