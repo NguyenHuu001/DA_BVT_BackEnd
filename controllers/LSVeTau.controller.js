@@ -32,8 +32,27 @@ const searchCancelTickets = async (req, res, next) => {
         res.status(401).send(error.message);
     }
 };
+const getAllCancelTickets = async (req, res, next) => {
+    try {
+        const response = await LSVeTauData.getAllCancelTickets();
+        response ? res.status(200).send(response) : res.status(400).send('Hủy vé thất bại');
+    } catch (error) {
+        res.status(401).send(error.message);
+    }
+};
+const confimCancelTicket = async (req, res, next) => {
+    try {
+        const data = req.body;
+        const response = await LSVeTauData.confimCancelTicket(data);
+        response ? res.status(200).send(response) : res.status(400).send('Hủy vé thất bại');
+    } catch (error) {
+        res.status(401).send(error.message);
+    }
+};
 module.exports = {
     getLSDatVe,
     cancelTickets,
     searchCancelTickets,
+    getAllCancelTickets,
+    confimCancelTicket,
 };
