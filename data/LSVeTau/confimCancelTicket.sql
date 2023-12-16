@@ -9,5 +9,5 @@ WHERE MaDatVe = @MaDatVe ;
 UPDATE ChiTietChoNgoi
 SET TrangThai = 'Trống', MaKhachDiChung = NULL
 WHERE MaCTCT = @MaCTCT AND MaKhachDiChung = @MaKhachDiChung; 
-
+    
 COMMIT;
