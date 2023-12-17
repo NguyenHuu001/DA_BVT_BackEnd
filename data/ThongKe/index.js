@@ -17,5 +17,26 @@ const TongTienThang = async () => {
         return error.message;
     }
 };
+const ThongKeVeBan_Huy = async () => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ThongKe');
+        const saleTicket = await pool.request().query(sqlQueries.thongKeVeBan);
+        const canCelTicket = await pool.request().query(sqlQueries.thongKeVeHuy);
+        return { VeBan: saleTicket.recordset, VeHuy: canCelTicket.recordset };
+    } catch (error) {
+        return error.message;
+    }
+};
+const saleTicketTrain = async () => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ThongKe');
+        const saleTicket = await pool.request().query(sqlQueries.saleTicketTrain);
+        return saleTicket.recordset;
+    } catch (error) {
+        return error.message;
+    }
+};
 
-module.exports = { TongTienThang };
+module.exports = { TongTienThang, ThongKeVeBan_Huy, saleTicketTrain };
