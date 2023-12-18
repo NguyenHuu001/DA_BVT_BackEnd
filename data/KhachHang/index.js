@@ -62,7 +62,6 @@ const getKhachHangById = async (id) => {
 };
 
 const updateKhachHangByAdmin = async (data) => {
-    console.log(data);
     try {
         let pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('KhachHang');

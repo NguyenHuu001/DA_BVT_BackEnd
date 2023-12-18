@@ -7,11 +7,11 @@ const { getDetailKH, updateKhachHang, getKhachHangById, getAllKhachHang, updateK
     KhachHangController;
 
 router.get('/getDetailKH', getDetailKH);
+router.get('/khach-hang/:id', getKhachHangById);
+router.get('/all-khach-hang', getAllKhachHang);
 router.put('/updateKhachHang', updateKhachHang);
-// router.get('/khach-hang/:id', getKhachHangById);
-// router.get('/all-khach-hang', getAllKhachHang);
-// router.put('/update', updateKhachHangByAdmin);
-// router.delete('/delete/:id', deleteKhachHang);
+router.put('/update', updateKhachHangByAdmin);
+router.delete('/delete/:id', deleteKhachHang);
 module.exports = {
     routes: router,
 };
