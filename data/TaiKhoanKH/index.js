@@ -96,7 +96,6 @@ const forgotPassWord = async (Email) => {
 
         const MaTKKH = checkEmail.recordset[0].MaTKKH;
         const secret = checkEmail.recordset[0].Email;
-
         const token = jwt.sign({ MaTKKH: MaTKKH, Email: secret }, secret, { expiresIn: '5m' });
         const link = `http://localhost:8008/api/reset-password/${MaTKKH}/${token}`;
         var transporter = nodemailer.createTransport({
@@ -132,7 +131,7 @@ const resetPassWord = async (id, token) => {
     try {
         let pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('TaiKhoanKH');
-        const checkAccount = await pool.request().input('MaTKKT', sql.Int, id).query(sqlQueries.checkAccount);
+        const checkAccount = await pool.request().input('MaTKKH', sql.Int, id).query(sqlQueries.checkAccount);
         if (!checkAccount) return null;
         const secret = checkAccount.recordset[0].Email;
         const verify = jwt.verify(token, secret);
@@ -146,9 +145,10 @@ const postResetPassWord = async (id, token, password) => {
     try {
         let pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('TaiKhoanKH');
-        const checkAccount = await pool.request().input('MaTKKT', sql.Int, id).query(sqlQueries.checkAccount);
+        const checkAccount = await pool.request().input('MaTKKH', sql.Int, id).query(sqlQueries.checkAccount);
         if (!checkAccount) return null;
         const secret = checkAccount.recordset[0].Email;
+
         const verify = jwt.verify(token, secret);
         const hashedPassword = await bcrypt.hash(password, 10);
         const insertTKKH = await pool
