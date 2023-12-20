@@ -34,13 +34,28 @@ const searchPriceTicket = async (MaChuyenTau, MaGhe) => {
     try {
         let pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
-        const result = await pool
-            .request()
-            .input('MaChuyenTau', sql.Int, MaChuyenTau)
-            .query(sqlQueries.priceTicket);
+        const result = await pool.request().input('MaChuyenTau', sql.Int, MaChuyenTau).query(sqlQueries.priceTicket);
         return result.recordset;
     } catch (error) {
         throw error;
     }
 };
-module.exports = { getAllChuyenTau, searchChuyenTau, searchPriceTicket };
+
+const addTrains = async (data) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
+        console.log(data.GioDi);
+        const result = await pool
+            .request()
+            .input('MaChuyenTau', sql.Int, data.MaChuyenTau)
+            .input('NgayDi', sql.Date, data.NgayDi)
+            .input('GioDi', sql.NVarChar(10), data.GioDi)
+            .query(sqlQueries.addChuyenTau);
+        return result.recordset;
+    } catch (error) {
+        console.log(error.message); // In ra thông báo lỗi để xem làm thế nào
+        throw error;
+    }
+};
+module.exports = { getAllChuyenTau, searchChuyenTau, searchPriceTicket, addTrains };

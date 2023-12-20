@@ -31,8 +31,19 @@ const searchPriceTicket = async (req, res, next) => {
         res.status(400).send(error.message);
     }
 };
+const addTrains = async (req, res, next) => {
+    try {
+        const data = req.body;
+
+        const addTrains = await ChuyenTauData.addTrains(data);
+        res.send(addTrains);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
 module.exports = {
     getAllChuyenTau,
     searchChuyenTau,
     searchPriceTicket,
+    addTrains,
 };
