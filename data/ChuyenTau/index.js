@@ -58,4 +58,15 @@ const addTrains = async (data) => {
         throw error;
     }
 };
-module.exports = { getAllChuyenTau, searchChuyenTau, searchPriceTicket, addTrains };
+const selectDetailChuyenTau = async () => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
+        const result = await pool.request().query(sqlQueries.selectDetailChuyenTau);
+        return result.recordset;
+    } catch (error) {
+        console.log(error.message); // In ra thông báo lỗi để xem làm thế nào
+        throw error;
+    }
+};
+module.exports = { getAllChuyenTau, searchChuyenTau, searchPriceTicket, addTrains, selectDetailChuyenTau };
