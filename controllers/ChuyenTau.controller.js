@@ -40,9 +40,27 @@ const addTrains = async (req, res, next) => {
         res.status(400).send(error.message);
     }
 };
+const selectDetailAllChuyenTau = async (req, res, next) => {
+    try {
+        const DetailTrains = await ChuyenTauData.selectDetailAllChuyenTau();
+        res.send(DetailTrains);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
 const selectDetailChuyenTau = async (req, res, next) => {
     try {
-        const DetailTrains = await ChuyenTauData.selectDetailChuyenTau();
+        const { MaCTCT } = req.params;
+        const DetailTrains = await ChuyenTauData.selectDetailChuyenTau(MaCTCT);
+        res.send(DetailTrains);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
+const updateTrain = async (req, res, next) => {
+    try {
+        const data = req.body;
+        const DetailTrains = await ChuyenTauData.updateTrain(data);
         res.send(DetailTrains);
     } catch (error) {
         res.status(400).send(error.message);
@@ -53,5 +71,7 @@ module.exports = {
     searchChuyenTau,
     searchPriceTicket,
     addTrains,
+    selectDetailAllChuyenTau,
     selectDetailChuyenTau,
+    updateTrain,
 };

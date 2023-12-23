@@ -58,15 +58,50 @@ const addTrains = async (data) => {
         throw error;
     }
 };
-const selectDetailChuyenTau = async () => {
+const selectDetailAllChuyenTau = async () => {
     try {
         let pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
-        const result = await pool.request().query(sqlQueries.selectDetailChuyenTau);
+        const result = await pool.request().query(sqlQueries.selectDetailAllChuyenTau);
         return result.recordset;
     } catch (error) {
         console.log(error.message); // In ra thông báo lỗi để xem làm thế nào
         throw error;
     }
 };
-module.exports = { getAllChuyenTau, searchChuyenTau, searchPriceTicket, addTrains, selectDetailChuyenTau };
+const selectDetailChuyenTau = async (MaCTCT) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
+        const result = await pool.request().input('MaCTCT', sql.Int, MaCTCT).query(sqlQueries.selectTrainByID);
+        return result.recordset;
+    } catch (error) {
+        console.log(error.message); // In ra thông báo lỗi để xem làm thế nào
+        throw error;
+    }
+};
+const updateTrain = async (data) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
+        const result = await pool
+            .request()
+            .input('MaCTCT', sql.Int, data.MaCTCT)
+            .input('NgayDi', sql.NVarChar(50), data.NgayDi)
+            .input('GioDi', sql.NVarChar(20), data.GioDi)
+            .query(sqlQueries.updateTrain);
+        return result.recordset;
+    } catch (error) {
+        console.log(error.message); // In ra thông báo lỗi để xem làm thế nào
+        throw error;
+    }
+};
+module.exports = {
+    getAllChuyenTau,
+    searchChuyenTau,
+    searchPriceTicket,
+    addTrains,
+    selectDetailAllChuyenTau,
+    selectDetailChuyenTau,
+    updateTrain,
+};
