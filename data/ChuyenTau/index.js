@@ -45,7 +45,6 @@ const addTrains = async (data) => {
     try {
         let pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
-        console.log(data.GioDi);
         const result = await pool
             .request()
             .input('MaChuyenTau', sql.Int, data.MaChuyenTau)
@@ -96,6 +95,17 @@ const updateTrain = async (data) => {
         throw error;
     }
 };
+const deleteTrain = async (MaCTCT) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('ChuyenTau');
+        const result = await pool.request().input('MaCTCT', sql.Int, MaCTCT).query(sqlQueries.deleteTrain);
+        return true;
+    } catch (error) {
+        console.log(error.message);
+        throw error;
+    }
+};
 module.exports = {
     getAllChuyenTau,
     searchChuyenTau,
@@ -104,4 +114,5 @@ module.exports = {
     selectDetailAllChuyenTau,
     selectDetailChuyenTau,
     updateTrain,
+    deleteTrain,
 };

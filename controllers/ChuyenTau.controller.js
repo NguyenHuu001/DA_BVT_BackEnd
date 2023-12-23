@@ -66,6 +66,15 @@ const updateTrain = async (req, res, next) => {
         res.status(400).send(error.message);
     }
 };
+const deleteTrain = async (req, res, next) => {
+    try {
+        const { MaCTCT } = req.params;
+        const DetailTrains = await ChuyenTauData.deleteTrain(MaCTCT);
+        res.send(DetailTrains);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
 module.exports = {
     getAllChuyenTau,
     searchChuyenTau,
@@ -74,4 +83,5 @@ module.exports = {
     selectDetailAllChuyenTau,
     selectDetailChuyenTau,
     updateTrain,
+    deleteTrain,
 };

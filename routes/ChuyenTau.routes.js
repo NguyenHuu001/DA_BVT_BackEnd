@@ -12,6 +12,7 @@ const {
     selectDetailAllChuyenTau,
     selectDetailChuyenTau,
     updateTrain,
+    deleteTrain,
 } = ChuyenTauController;
 const { verifyAdmin, verifyUser } = authenticate;
 router.get('/getAllChuyenTau', getAllChuyenTau);
@@ -21,6 +22,7 @@ router.get('/selectDetailAllChuyenTau', verifyAdmin, selectDetailAllChuyenTau);
 router.get('/selectDetailChuyenTau/:MaCTCT', verifyAdmin, selectDetailChuyenTau);
 router.post('/addTrains', verifyAdmin, addTrains);
 router.put('/updateTrain', verifyAdmin, updateTrain);
+router.delete('/deleteTrain/:MaCTCT', verifyAdmin, deleteTrain);
 module.exports = {
     routes: router,
 };
